@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Locale;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class RoleController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,9 @@ class RoleController extends Controller
     public function index()
     {
         //
-        $roles = Role::all();
-        return view('Principal.Roles', compact('roles'));
+        $categories = Category::all();
+        return view('Principal.Categories', compact('categories'));
+
     }
 
     /**
@@ -39,23 +41,29 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //
+        $folder = "portadas";
+        $rutaImagen = Storage::disk('s3')->put($folder,$request->portada,'public');
         
-        Role::create([
-            'nombre_rol' => $request->nombre_rol,
-            'descripcion_rol' => $request->descripcion_rol,
-            'status' =>$request->status,
+        
+
+        Category::create([
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
+            'portada' => $rutaImagen,
+            'status' => $request->status,
+            
         ]);
 
-        return redirect()->back()->with('success','ok');
+        return redirect()->back()->with('success', 'Proveedor agregado Correctamente');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Role  $role
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show(Category $category)
     {
         //
     }
@@ -63,10 +71,10 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Role  $role
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role)
+    public function edit(Category $category)
     {
         //
     }
@@ -75,10 +83,10 @@ class RoleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Role  $role
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, Category $category)
     {
         //
     }
@@ -86,10 +94,10 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Role  $role
+     * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
+    public function destroy(Category $category)
     {
         //
     }

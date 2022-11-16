@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\CategoriaController;
+use App\Http\Controllers\Auth\ApiAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+Route::post('register', [ApiAuthController::class, 'register']);
+Route::post('iniciarsesion', [ApiAuthController::class, 'Iniciarsesion']);
+   
+Route::middleware('jwt.verify')->group(function(){
+    Route::get('categorias',[CategoriaController::class,'index']);
 });

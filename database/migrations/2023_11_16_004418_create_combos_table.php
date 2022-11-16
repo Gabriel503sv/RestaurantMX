@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use PHPUnit\Framework\Constraint\Constraint;
 
 return new class extends Migration
 {
@@ -14,23 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('combos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('direccion');
-            $table->string('telefono');
+            $table->string('nombre');
+            $table->string('descripcion');
+            $table->string('precio');
+            $table->string('imagen');
             $table->integer('status');
-            $table->rememberToken();
-            $table->timestamps();
-
-            $table->foreignId('id_roles')
+            
+            $table->foreignId('id_categories')
                    ->nullable()
-                   ->constrained('roles')
+                   ->constrained('categories')
                    ->cascadeOnUpdate()
                    ->nullOnDelete();
+            $table->timestamps();
+
+
         });
     }
 
@@ -41,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('combos');
     }
 };

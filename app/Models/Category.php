@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Category extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nombre_rol',
-        'descripcion_rol',
+        'nombre',
+        'descripcion',
+        'portada',
         'status',
     ];
-    public function user(){
-        return $this -> hasMany(User::class,'id');
+    public function combo(){
+        return $this -> hasMany(Combo::class,'id');
     }
 }

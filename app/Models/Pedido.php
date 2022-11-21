@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Combo extends Model
+class Pedido extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'nombre',
-        'descripcion',
-        'precio',
-        'imagen',
+        'id_usuario',
+        'fecha',
+        'costo_envio',
+        'monto',
         'status',
-        'id_categories',
+        'id_tipopago',
     ];
-    public function categories(){
-        return $this -> belongsTo(Category::class,'id_categories');
+    public function tipopagos(){
+        return $this -> belongsTo(Tipopago::class,'id_tipopago');
     }
     public function detallepedido(){
         return $this -> hasMany(DetallePedido::class,'id');

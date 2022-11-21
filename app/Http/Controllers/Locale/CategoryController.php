@@ -54,7 +54,7 @@ class CategoryController extends Controller
             
         ]);
 
-        return redirect()->back()->with('success', 'Proveedor agregado Correctamente');
+        return redirect()->back()->with('success', 'Categoria agregado Correctamente');
     }
 
     /**

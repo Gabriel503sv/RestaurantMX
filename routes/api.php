@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CategoriaController;
+use App\Http\Controllers\Api\ProductoController;
 use App\Http\Controllers\Auth\ApiAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,9 @@ Route::post('iniciarsesion', [ApiAuthController::class, 'Iniciarsesion']);
    
 Route::middleware('jwt.verify')->group(function(){
     Route::get('categorias',[CategoriaController::class,'index']);
+    
+    Route::controller(ProductoController::class)->group(function (){
+        Route::get('/productos','index');
+        Route::get('/producto/{id}','show');
+    });
 });

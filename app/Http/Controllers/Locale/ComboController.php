@@ -57,7 +57,7 @@ class ComboController extends Controller
             
         ]);
 
-        return redirect()->back()->with('success', 'Proveedor agregado Correctamente');
+        return redirect()->back()->with('success', 'Combo agregado Correctamente');
     }
 
     /**

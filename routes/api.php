@@ -23,21 +23,22 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('iniciarsesion', [ApiAuthController::class, 'Iniciarsesion']);
-   
-Route::middleware('jwt.verify')->group(function(){
-    Route::get('categorias',[CategoriaController::class,'index']);
-    
-    Route::controller(ProductoController::class)->group(function (){
-        Route::get('/pedidos','index');
-        Route::get('/pedidos/{id}','show');
-        Route::post('/pedido','store');
-    });
-    Route::controller(PedidoController::class)->group(function (){
-        Route::get('/detallepedidos','index');
-        Route::get('/detallepedidos/{id}','show');
-        Route::post('/pedido','store');
-    });
-    Route::controller(DetallePedidoController::class)->group(function (){
-        Route::get('/tipopago','index');
-    });
+
+Route::middleware('jwt.verify')->group(function () {
+
+});
+Route::get('categorias', [CategoriaController::class, 'index']);
+
+Route::controller(ProductoController::class)->group(function () {
+    Route::get('/pedidos', 'index');
+    Route::get('/pedidos/{id}', 'show');
+    Route::post('/pedido', 'store');
+});
+Route::controller(PedidoController::class)->group(function () {
+    Route::get('/detallepedidos', 'index');
+    Route::get('/detallepedidos/{id}', 'show');
+    Route::post('/pedido', 'store');
+});
+Route::controller(DetallePedidoController::class)->group(function () {
+    Route::get('/tipopago', 'index');
 });

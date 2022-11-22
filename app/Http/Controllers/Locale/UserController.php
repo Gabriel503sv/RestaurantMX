@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Locale;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -20,7 +21,7 @@ class UserController extends Controller
         $users = User::all();
         $roles = Role::all();
 
-        return view('Principal.Usuario', compact('users','roles'));
+        return view('Principal.Usuario', compact('users', 'roles'));
     }
 
     /**
@@ -42,37 +43,41 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
+        try {
+            $request->validate([
 
-            'email' => 'required|unique:users,email',
-            'password' => 'required|min:8',
-            'password_confirmation' => 'required|same:password',
-            'name'=> 'required',
-            'direccion'=> 'required',
-            'telefono'=> 'required',
-            'status'=> 'required',
-            'id_roles' => 'required',
-        ],[
-            'email.required' => 'El correo es requerido',
-            'email.unique' => 'El correo ya ha sido usado',
-            'password.required' => 'La contraseña es requerida',
-            'password.min' => 'La contraseña debe tener 8 caracteres',
-            'password_confirmation.required' => 'La confirmacion de la contraseña es requerida',
-            'password.same' => 'La contraseñas no coinciden',
-            'name.required' => 'el nombre es requerido'
-        ]);
+                'email' => 'required|unique:users,email',
+                'password' => 'required|min:8',
+                'password_confirmation' => 'required|same:password',
+                'name' => 'required',
+                'direccion' => 'required',
+                'telefono' => 'required',
+                'status' => 'required',
+                'id_roles' => 'required',
+            ], [
+                'email.required' => 'El correo es requerido',
+                'email.unique' => 'El correo ya ha sido usado',
+                'password.required' => 'La contraseña es requerida',
+                'password.min' => 'La contraseña debe tener 8 caracteres',
+                'password_confirmation.required' => 'La confirmacion de la contraseña es requerida',
+                'password.same' => 'La contraseñas no coinciden',
+                'name.required' => 'el nombre es requerido'
+            ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'direccion' => $request->direccion,
-            'telefono' => $request->telefono,
-            'status' => $request->status,
-            'id_roles'=> $request->id_roles,
-        ]);
+            User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'direccion' => $request->direccion,
+                'telefono' => $request->telefono,
+                'status' => $request->status,
+                'id_roles' => $request->id_roles,
+            ]);
 
-        return redirect()->back()->with('success','Usuario agregado Correctamente');
+            return redirect()->back()->with('agregado', 'SI');
+        } catch (Exception $e) {
+            return redirect()->back()->with('agregado', 'NO');
+        }
     }
 
     /**
@@ -118,5 +123,10 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+        if ($user->delete()) {
+            return redirect()->back()->with('eliminado', 'SI');
+        } else {
+            return redirect()->back()->with('eliminado', 'NO');
+        }
     }
 }

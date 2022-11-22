@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Locale;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Combo;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,7 +21,7 @@ class ComboController extends Controller
         //
         $categories = Category::all();
         $combos = Combo::all();
-        return view('Principal.Combos', compact('combos','categories'));
+        return view('Principal.Combos', compact('combos', 'categories'));
     }
 
     /**
@@ -42,22 +43,26 @@ class ComboController extends Controller
     public function store(Request $request)
     {
         //
-        $folder = "productos";
-        $rutaImagen = Storage::disk('s3')->put($folder,$request->imagen,'public');
-        
-        
+        try {
+            $folder = "productos";
+            $rutaImagen = Storage::disk('s3')->put($folder, $request->imagen, 'public');
 
-        Combo::create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'precio'=>$request->precio,
-            'id_categories'=>$request->id_categories,
-            'imagen' => $rutaImagen,
-            'status' => $request->status,
-            
-        ]);
 
-        return redirect()->back()->with('success', 'Combo agregado Correctamente');
+
+            Combo::create([
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion,
+                'precio' => $request->precio,
+                'id_categories' => $request->id_categories,
+                'imagen' => $rutaImagen,
+                'status' => $request->status,
+
+            ]);
+
+            return redirect()->back()->with('agregado', 'SI');
+        } catch (Exception $e) {
+            return redirect()->back()->with('agregado', 'NO');
+        }
     }
 
     /**
@@ -103,5 +108,10 @@ class ComboController extends Controller
     public function destroy(Combo $combo)
     {
         //
+        if ($combo->delete()) {
+            return redirect()->back()->with('eliminado', 'SI');
+        } else {
+            return redirect()->back()->with('eliminado', 'NO');
+        }
     }
 }

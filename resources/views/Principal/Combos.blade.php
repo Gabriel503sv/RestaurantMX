@@ -155,13 +155,38 @@
 
 @section('js')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @if (session()->has('success'))
+    @if (session('agregado') == 'SI')
         <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Agregado correctamente',
-                showConfirmButton: true,
-            })
+            Swal.fire(
+                'Agregado',
+                'Plato Agregado correctamente.',
+                'success'
+            )
+        </script>
+    @elseif (session('agregado') == 'NO')
+        <script>
+            Swal.fire(
+                'Error',
+                'Plato no se pudo agregar',
+                'error'
+            )
+        </script>
+    @endif
+    @if (session('eliminado') == 'SI')
+        <script>
+            Swal.fire(
+                'Eliminado',
+                'Plato eliminado correctamente.',
+                'success'
+            )
+        </script>
+    @elseif (session('eliminado') == 'NO')
+        <script>
+            Swal.fire(
+                'Error',
+                'Plato No pudo ser eliminado ',
+                'error'
+            )
         </script>
     @endif
     <script>
@@ -178,11 +203,7 @@
                 confirmButtonText: 'Si, Eliminar!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
+                    this.submit();
                 }
             })
         });

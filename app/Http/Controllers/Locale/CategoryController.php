@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Locale;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,7 +20,6 @@ class CategoryController extends Controller
         //
         $categories = Category::all();
         return view('Principal.Categories', compact('categories'));
-
     }
 
     /**
@@ -41,20 +41,24 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         //
-        $folder = "portadas";
-        $rutaImagen = Storage::disk('s3')->put($folder,$request->portada,'public');
-        
-        
+        try {
+            $folder = "portadas";
+            $rutaImagen = Storage::disk('s3')->put($folder, $request->portada, 'public');
 
-        Category::create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'portada' => $rutaImagen,
-            'status' => $request->status,
-            
-        ]);
 
-        return redirect()->back()->with('success', 'Categoria agregado Correctamente');
+
+            Category::create([
+                'nombre' => $request->nombre,
+                'descripcion' => $request->descripcion,
+                'portada' => $rutaImagen,
+                'status' => $request->status,
+
+            ]);
+
+            return redirect()->back()->with('agregado', 'SI');
+        } catch (Exception $e) {
+            return redirect()->back()->with('agregado', 'NO');
+        }
     }
 
     /**
@@ -100,5 +104,10 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
+        if ($category->delete()) {
+            return redirect()->back()->with('eliminado', 'SI');
+        } else {
+            return redirect()->back()->with('eliminado', 'NO');
+        }
     }
 }

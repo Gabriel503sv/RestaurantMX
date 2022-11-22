@@ -23,7 +23,8 @@
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form class="row g-3 text-dark text-center was-validated" action="{{ route('category.store') }}" method="POST"  enctype="multipart/form-data"
+                                    <form class="row g-3 text-dark text-center was-validated"
+                                        action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data"
                                         class="m-auto  w-form">
                                         @csrf
                                         <div class="col-md-6 mb-3">
@@ -35,7 +36,8 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 mb-3">
-                                            <label for="validationTextarea" class="form-label">descripcion de la categoria</label>
+                                            <label for="validationTextarea" class="form-label">descripcion de la
+                                                categoria</label>
                                             <textarea name="descripcion" class="form-control" id="validationTextarea" placeholder="Required example textarea"
                                                 required></textarea>
                                             <div class="invalid-feedback">
@@ -45,8 +47,8 @@
                                         <div class="col-md-8">
                                             <label class="form-label">Imagen</label>
                                             <div class="input-group mb-3">
-                                                <input name="portada" type="file" accept="image/*"
-                                                    class="form-control" id="inputGroupFile02" required>
+                                                <input name="portada" type="file" accept="image/*" class="form-control"
+                                                    id="inputGroupFile02" required>
                                                 <label class="input-group-text" for="inputGroupFile02">Subir</label>
                                             </div>
                                         </div>
@@ -75,14 +77,14 @@
                     </div>
                     <div class="card-body pb-5">
                         <table id="example" class="table table-striped dt-responsive nowrap" style="width:100%">
-                            <thead >
+                            <thead>
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">nombre</th>
                                     <th scope="col">descripcion</th>
                                     <th scope="col">status</th>
                                     <th scope="col">portada</th>
-                                    <th scope="col">Acciones</th>                                    
+                                    <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,30 +94,33 @@
                                         <td>{{ $category->nombre }}</td>
                                         <td>{{ $category->descripcion }}</td>
                                         <td>{{ $category->status }}</td>
-                                        <td><img src="https://restauntemx-bucket-s3.s3.amazonaws.com/{{$category->portada }}" style="width: 100px; height: 100px;" ></td>
+                                        <td><img src="https://restauntemx-bucket-s3.s3.amazonaws.com/{{ $category->portada }}"
+                                                style="width: 100px; height: 100px;"></td>
                                         <td>
                                             <div class="row gx-3">
                                                 <div class="col">
-                                                    <a href="{{ route('category.edit', $category->id) }}" style="width: 100%"
-                                                        class="btn btn-success  mb-3"><i class='bx bxs-edit-alt'></i></a>
+                                                    <a href="{{ route('category.edit', $category->id) }}"
+                                                        style="width: 100%" class="btn btn-success  mb-3"><i
+                                                            class='bx bxs-edit-alt'></i></a>
                                                 </div>
                                                 <div class="col">
                                                     <form method="POST" class="formulario-eliminar"
                                                         action="{{ route('category.destroy', $category->id) }}">
                                                         @method('DELETE')
                                                         @csrf
-                                                        <button style="width: 100%" class="btn btn-danger"><i class='bx bxs-trash' ></i></button>
+                                                        <button style="width: 100%" class="btn btn-danger"><i
+                                                                class='bx bxs-trash'></i></button>
                                                     </form>
                                                 </div>
                                             </div>
                                         </td>
-                                        
-                                    
+
+
 
                                     </tr>
                                 @endforeach
                             </tbody>
-                           
+
                         </table>
                     </div>
                 </div>
@@ -126,13 +131,38 @@
 
 @section('js')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @if (session()->has('success'))
+    @if (session('agregado') == 'SI')
         <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Agregado correctamente',
-                showConfirmButton: true,
-            })
+            Swal.fire(
+                'Agregado',
+                'Categoria Agregado correctamente.',
+                'success'
+            )
+        </script>
+    @elseif (session('agregado') == 'NO')
+        <script>
+            Swal.fire(
+                'Error',
+                'Categoria no se pudo agregar',
+                'error'
+            )
+        </script>
+    @endif
+    @if (session('eliminado') == 'SI')
+        <script>
+            Swal.fire(
+                'Eliminado',
+                'Categoria eliminado correctamente.',
+                'success'
+            )
+        </script>
+    @elseif (session('eliminado') == 'NO')
+        <script>
+            Swal.fire(
+                'Error',
+                'Categoria No pudo ser eliminado ',
+                'error'
+            )
         </script>
     @endif
     <script>
@@ -149,11 +179,7 @@
                 confirmButtonText: 'Si, Eliminar!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
+                    this.submit();
                 }
             })
         });

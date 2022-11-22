@@ -177,15 +177,41 @@
 
 @section('js')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @if (session()->has('success'))
+    @if (session('agregado') == "SI")
         <script>
-            Swal.fire({
+            Swal.fire(
                 'Agregado',
-                {{ session()->get('success') }},
+                'Usuario Agregado correctamente.',
                 'success'
-            })
+            )
         </script>
+    @elseif (session('agregado') == "NO")
+    <script>
+        Swal.fire(
+            'Error',
+            'Usuario No agregado',
+            'error'
+        )
+    </script>
     @endif
+    @if (session('eliminado') == "SI")
+        <script>
+            Swal.fire(
+                'Eliminado',
+                'Usuario eliminado correctamente.',
+                'success'
+            )
+        </script>
+    @elseif (session('eliminado') == "NO")
+    <script>
+        Swal.fire(
+            'Error',
+            'Usuario No pudo ser eliminado ',
+            'error'
+        )
+    </script>
+    @endif 
+
     <script>
         $('.formulario-eliminar').submit(function(e) {
             e.preventDefault();
@@ -200,11 +226,7 @@
                 confirmButtonText: 'Si, Eliminar!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
+                   this.submit();
                 }
             })
         });

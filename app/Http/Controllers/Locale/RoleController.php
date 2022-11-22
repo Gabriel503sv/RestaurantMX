@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Locale;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use Exception;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -39,14 +40,17 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //
-        
-        Role::create([
-            'nombre_rol' => $request->nombre_rol,
-            'descripcion_rol' => $request->descripcion_rol,
-            'status' =>$request->status,
-        ]);
+        try {
+            Role::create([
+                'nombre_rol' => $request->nombre_rol,
+                'descripcion_rol' => $request->descripcion_rol,
+                'status' => $request->status,
+            ]);
 
-        return redirect()->back()->with('success','ok');
+            return redirect()->back()->with('agregado', 'SI');
+        } catch (Exception $e) {
+            return redirect()->back()->with('agregado', 'NO');
+        }
     }
 
     /**
@@ -92,5 +96,10 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         //
+        if ($role->delete()) {
+            return redirect()->back()->with('eliminado', 'SI');
+        } else {
+            return redirect()->back()->with('eliminado', 'NO');
+        }
     }
 }

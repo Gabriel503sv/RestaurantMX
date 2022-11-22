@@ -67,13 +67,13 @@
                     </div>
                     <div class="card-body pb-5">
                         <table id="example" class="table table-striped dt-responsive nowrap" style="width:100%">
-                            <thead >
+                            <thead>
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">descripcion</th>
                                     <th scope="col">status</th>
-                                    <th scope="col">Acciones</th>                                    
+                                    <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -94,13 +94,14 @@
                                                         action="{{ route('role.destroy', $role->id) }}">
                                                         @method('DELETE')
                                                         @csrf
-                                                        <button style="width: 100%" class="btn btn-danger"><i class='bx bxs-trash' ></i></button>
+                                                        <button style="width: 100%" class="btn btn-danger"><i
+                                                                class='bx bxs-trash'></i></button>
                                                     </form>
                                                 </div>
                                             </div>
                                         </td>
-                                        
-                                    
+
+
 
                                     </tr>
                                 @endforeach
@@ -115,13 +116,38 @@
 
 @section('js')
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @if (session('success') == 'ok')
+    @if (session('agregado') == 'SI')
         <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Agregado correctamente',
-                showConfirmButton: true,
-            })
+            Swal.fire(
+                'Agregado',
+                'Role Agregado correctamente.',
+                'success'
+            )
+        </script>
+    @elseif (session('agregado') == 'NO')
+        <script>
+            Swal.fire(
+                'Error',
+                'Role no se pudo agregar',
+                'error'
+            )
+        </script>
+    @endif
+    @if (session('eliminado') == 'SI')
+        <script>
+            Swal.fire(
+                'Eliminado',
+                'Role eliminado correctamente.',
+                'success'
+            )
+        </script>
+    @elseif (session('eliminado') == 'NO')
+        <script>
+            Swal.fire(
+                'Error',
+                'Role No pudo ser eliminado ',
+                'error'
+            )
         </script>
     @endif
     <script>
@@ -138,11 +164,7 @@
                 confirmButtonText: 'si, Eliminar!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
+                    this.submit();
                 }
             })
         });

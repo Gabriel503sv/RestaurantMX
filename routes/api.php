@@ -43,7 +43,7 @@ Route::controller(PedidoController::class)->group(function () {
 Route::controller(DetallePedidoController::class)->group(function () {
     Route::get('/detallepedidos', 'index');
     Route::get('/detallepedidos/{id}', 'show');
-    Route::post('/pedido', 'store');
+    Route::post('/detallepedido', 'store');
 });
 Route::controller(TipoPagoController::class)->group(function () {
     Route::get('/tipopago', 'index');

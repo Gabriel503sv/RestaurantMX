@@ -28,7 +28,7 @@
                                         class="m-auto  w-form">
                                         @csrf
                                         <div class="col-md-6 mb-3">
-                                            <label for="validationText" class="form-label">Nombre de la categoria</label>
+                                            <label for="validationText" class="form-label">Nombre de la combo</label>
                                             <input name="nombre" type="text" class="border-dark form-control"
                                                 id="validationText" placeholder="Ingrese un nombre role" required>
                                             <div class="invalid-feedback">
@@ -37,7 +37,7 @@
                                         </div>
                                         <div class="col-md-6 mb-3">
                                             <label for="validationTextarea" class="form-label">descripcion de la
-                                                categoria</label>
+                                                combo</label>
                                             <textarea name="descripcion" class="form-control" id="validationTextarea" placeholder="Required example textarea"
                                                 required></textarea>
                                             <div class="invalid-feedback">

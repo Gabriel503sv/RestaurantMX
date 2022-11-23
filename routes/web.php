@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\PedidoController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Locale\CategoryController;
 use App\Http\Controllers\Locale\ComboController;
 use App\Http\Controllers\Locale\DashboarController;
+use App\Http\Controllers\Locale\PedidoController as LocalePedidoController;
 use App\Http\Controllers\Locale\RoleController;
 use App\Http\Controllers\Locale\UserController;
 use Illuminate\Support\Facades\Route;
@@ -43,9 +45,14 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         Route::resource('combos', ComboController::class);
         //category
         Route::resource('category', CategoryController::class);
+        //category
+        Route::resource('pedido', LocalePedidoController::class);
         //dashboard
         Route::get('dashboard', [DashboarController::class, 'index'])->name('index');
-
+       Route::post('Enviado', [DashboarController::class, 'Enviado'])->name('Enviado');    
+        Route::get('envio', [DashboarController::class, 'envio'])->name('envio');
+        Route::get('pedidos', [DashboarController::class, 'pedido'])->name('pedidos');
+        
         //});
 
     });

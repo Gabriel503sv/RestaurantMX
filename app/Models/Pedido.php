@@ -15,6 +15,7 @@ class Pedido extends Model
         'monto',
         'status',
         'id_tipopago',
+        'direccion_envio',
     ];
     public function tipopagos(){
         return $this -> belongsTo(Tipopago::class,'id_tipopago');

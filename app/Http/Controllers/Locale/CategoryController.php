@@ -81,6 +81,9 @@ class CategoryController extends Controller
     public function edit(Category $category)
     {
         //
+        return view('Principal.Editar.CategoryEdit',[
+            'category' => $category
+        ]);
     }
 
     /**
@@ -93,6 +96,13 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         //
+        try{
+            $data = $request->only('nombre','descripcion','portada','status');
+            $category->update($data);
+            return redirect()->back()->with('Actualizado','SI');
+        }catch(Exception $e){
+            return redirect()->back()->with('Actualizado','NO');
+        }
     }
 
     /**
@@ -104,9 +114,14 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
-        if ($category->delete()) {
+        try{
+            Storage::disk('s3')->delete($category->portada);
+            
+            $category->delete();
+            
             return redirect()->back()->with('eliminado', 'SI');
-        } else {
+        
+        } catch(Exception $e) {
             return redirect()->back()->with('eliminado', 'NO');
         }
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Locale;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Role;
 use App\Models\User;
 use Exception;
@@ -100,6 +101,11 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
+        $Roles = Role::all();
+        return view('Principal.Editar.UserEdit',[
+            'roles' => $Roles,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -112,6 +118,34 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+        try{
+           
+            $request->validate([
+
+                'email' => 'required|unique:users,email',
+                'password' => 'required|min:8',
+                'password_confirmation' => 'required|same:password',
+                'name' => 'required',
+                'direccion' => 'required',
+                'telefono' => 'required',
+                'status' => 'required',
+                'id_roles' => 'required',
+            ], [
+                'email.required' => 'El correo es requerido',
+                'email.unique' => 'El correo ya ha sido usado',
+                'password.required' => 'La contraseña es requerida',
+                'password.min' => 'La contraseña debe tener 8 caracteres',
+                'password_confirmation.required' => 'La confirmacion de la contraseña es requerida',
+                'password.same' => 'La contraseñas no coinciden',
+                'name.required' => 'el nombre es requerido'
+            ]);
+
+            $data = $request->only('email','password','name','direccion','telefono','status','id_roles');
+            $user->update($data);
+            return redirect()->back()->with('Actualizado','SI');
+        }catch(Exception $e){
+            return redirect()->back()->with('Actualizado','NO');
+        }
     }
 
     /**

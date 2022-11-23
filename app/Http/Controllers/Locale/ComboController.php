@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Locale;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Combo;
+use App\Models\DetallePedido;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -74,6 +75,8 @@ class ComboController extends Controller
     public function show(Combo $combo)
     {
         //
+        $detalles = DetallePedido::where('status',$combo)->get();
+        return view('Principal.Detalle',compact('detalles'));
     }
 
     /**
@@ -85,6 +88,12 @@ class ComboController extends Controller
     public function edit(Combo $combo)
     {
         //
+        $categories = Category::all();
+        return view('Principal.Editar.ComboEdit',[
+            'combo' => $combo,
+            'categories' => $categories
+
+        ]);
     }
 
     /**
@@ -97,6 +106,14 @@ class ComboController extends Controller
     public function update(Request $request, Combo $combo)
     {
         //
+        try{
+            $data = $request->only('nombre','descripcion','precio','id_categories','imagen','status');
+            $combo->update($data);
+            return redirect()->back()->with('Actualizado','SI');
+        }catch(Exception $e){
+            return redirect()->back()->with('Actualizado','NO');
+        }
+        
     }
 
     /**
@@ -108,9 +125,15 @@ class ComboController extends Controller
     public function destroy(Combo $combo)
     {
         //
-        if ($combo->delete()) {
+        try{
+
+            Storage::disk('s3')->delete($combo->imagen);
+            
+            $combo->delete();
+            
             return redirect()->back()->with('eliminado', 'SI');
-        } else {
+        
+        } catch(Exception $e) {
             return redirect()->back()->with('eliminado', 'NO');
         }
     }

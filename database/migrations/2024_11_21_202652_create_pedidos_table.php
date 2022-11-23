@@ -26,7 +26,7 @@ return new class extends Migration
                    ->constrained('tipopagos')
                    ->cascadeOnUpdate()
                    ->nullOnDelete();
-
+            $table->string('direccion_envio');
             $table->timestamps();
         });
     }

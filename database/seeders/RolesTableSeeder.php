@@ -18,6 +18,7 @@ class RolesTableSeeder extends Seeder
     {
         //
         $roles = new Role();
+        $roles->id = 1;
         $roles->nombre_rol = "Admin";
         $roles->descripcion_rol = "administrador principal";
         $roles->status = 1;

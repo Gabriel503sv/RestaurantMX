@@ -52,7 +52,7 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <a href="index.html" class="brand-logo">
+            <a href="#" class="brand-logo">
                 <svg class="logo-abbr" width="53" height="53" viewBox="0 0 53 53">
                     <path class="svg-logo-primary-path"
                         d="M48.3418 41.8457H41.0957C36.8148 41.8457 33.332 38.3629 33.332 34.082C33.332 29.8011 36.8148 26.3184 41.0957 26.3184H48.3418V19.2275C48.3418 16.9408 46.4879 15.0869 44.2012 15.0869H4.14062C1.85386 15.0869 0 16.9408 0 19.2275V48.8594C0 51.1462 1.85386 53 4.14062 53H44.2012C46.4879 53 48.3418 51.1462 48.3418 48.8594V41.8457Z"
@@ -131,7 +131,7 @@
                 <ul class="metismenu" id="menu">
                     <li class="dropdown header-profile">
                         <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-                            <img src="images/ion/man (1).png" width="20" alt="" />
+                            
                             <div class="header-info ms-3">
                                 <span class="font-w600 ">Hola,{{ Auth::user()->name }}<b></b></span>
                                 <small class="text-end font-w400">{{ Auth::user()->email }}</small>
@@ -165,20 +165,20 @@
                         </a>
                     </li>
                     <li><a href="{{route('pedido.index')}}" class="ai-icon" aria-expanded="false">
-                            <i class='bx bxs-dish'></i>
-                            <span class="nav-text">Cocina</span>
-                        </a>
-                    </li>
-                    <li><a href="{{route('envio')}}" aria-expanded="false">
-                                <i class='bx bx-cycling'></i>
-                            <span class="nav-text">Envios</span>
-                        </a>
-                    </li>
-                    <li><a href="{{route('pedidos')}}" aria-expanded="false">
-                        <i class='bx bx-cart'></i>
-                            <span class="nav-text">Pedidos</span>
-                        </a>
-                    </li>
+                        <i class='bx bxs-dish'></i>
+                        <span class="nav-text">Cocina</span>
+                    </a>
+                </li>
+                <li><a href="{{route('envio')}}" aria-expanded="false">
+                            <i class='bx bx-cycling'></i>
+                        <span class="nav-text">Envios</span>
+                    </a>
+                </li>
+                <li><a href="{{route('pedidos')}}" aria-expanded="false">
+                    <i class='bx bx-cart'></i>
+                        <span class="nav-text">Pedidos</span>
+                    </a>
+                </li>
                 </ul>
             </div>
         </div>

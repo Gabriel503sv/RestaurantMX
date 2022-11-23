@@ -73,6 +73,9 @@ class RoleController extends Controller
     public function edit(Role $role)
     {
         //
+        return view('Principal.Editar.RolesEdit',[
+            'role' => $role
+        ]);
     }
 
     /**
@@ -85,6 +88,13 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         //
+        try{
+            $data = $request->only('nombre_rol','descripcion_rol','status');
+            $role->update($data);
+            return redirect()->back()->with('Actualizado','SI');
+        }catch(Exception $e){
+            return redirect()->back()->with('Actualizado','NO');
+        }
     }
 
     /**
